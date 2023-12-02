@@ -33,6 +33,7 @@ const LoginForm = () => {
     localStorage.setItem("accesstoken", res?.data?.token);
     localStorage.setItem("firstName", res?.data?.user?.firstName);
     localStorage.setItem("lastName",res?.data?.user?.lastName);
+    
     navigate("/home");
   },
 
