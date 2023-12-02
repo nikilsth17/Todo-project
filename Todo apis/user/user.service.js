@@ -1,8 +1,7 @@
 
 import bcrypt from "bcrypt";
 import { User } from "./user.model.js";
-import { registerUserValidationSchema } from "./user.validation.js";
-import Joi from "joi";
+import { loginUserValidationSchema, registerUserValidationSchema } from "./user.validation.js";
 import jwt from "jsonwebtoken";
 
 
@@ -38,51 +37,50 @@ export const registerUser= async(req,res)=>{
 
 // ===============    login user   ========================
 
-export const loginUser= async(req,res)=>{
+export const loginUser=async(req,res)=>{
     const loginCredential= req.body;
-    const schema= Joi.object({
-        email:Joi.string().required().trim().min(5).max(55),
-        password:Joi.string().required().
-            trim().
-            max(55).
-            pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),
-    });
 
+    //validate login credentials
+    
+     
     try {
-        await schema.validateAsync(loginCredential);
+        await loginUserValidationSchema.validateAsync(loginCredential);
     } catch (error) {
-        return res.status(400).send({message:error.message})
-    };
-    
-    //check if user exists with email
-    const user= await User.findOne({email:loginCredential.email});
-    
-    // if not user exists, terminate
-    if(!user){
-        return res.status(409).send({message:"User with this email already exists."});
+            // if validation Fails, terminate
+        return res.status(400).send({message:error.message});
+        
     }
-    
+
+    // check if user with provided email exist
+    const user= await User.findOne({email:loginCredential.email});
+
+    // if not user,terminate
+    if (!user){
+        return res.status(404).send({message:"Invalid credentials"});
+    }
+
     // check for password match using bcrypt.compare()
-    const passwordMatch = await bcrypt.compare(
+    const passwordMatch= await bcrypt.compare(
         loginCredential.password,
         user.password
     );
 
-    //if not match password, terminate or error show
+    // if not password Match, terminate
     if (!passwordMatch){
-        return res.status(404).send({message:"Invalid credentials."})
-    };
+        return res.status(404).send({message:"Invalid credentials"});
+    }
 
     //encrypt user information as a token using jsonwebtoken, jwt.sign(token,secret_key)
     const token=jwt.sign(
         {email:user.email},
         process.env.JWT_ACCESS_TOKEN_SECRET_KEY,
         {
-            expiresIn:"1d",     //token limitaion time
+            expiresIn:"1d",    //token limitation time
         }
     );
-    //hide user password
-    user.password=undefined
-    
+
+        //hide user password
+    user.password=undefined;
+
     return res.status(200).send({user,token});
 };

@@ -12,4 +12,11 @@ export const registerUserValidationSchema=Joi.object({
     lastName:Joi.string().required().trim().min(2).max(55),
     gender:Joi.string().required().valid("male","female","other"),
     location:Joi.string().required().trim().min(2).max(55),
-})
+});
+
+
+
+export const loginUserValidationSchema= Joi.object({
+    email:Joi.string().email().required().trim().lowercase(),
+    password:Joi.string().required().trim(),
+});
