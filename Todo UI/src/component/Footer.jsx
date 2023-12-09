@@ -3,9 +3,9 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <Box className="footer" sx={{marginTop:"2rem"}}>
+    <Box className="footer">
     <Typography variant="h6" sx={{ color: "white",gap:"2rem" }}>
-      Copyrignt &copy; 2023 Todo App
+      Copyright &copy; 2023 Todo App
     </Typography>
   </Box>
   )

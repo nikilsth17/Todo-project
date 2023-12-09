@@ -13,10 +13,12 @@ import EditTodo from './EditTodo';
 import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch } from 'react-redux';
 import { openErrorSnackbar, openSuccessSnackbar } from '../store/slice/snackbarSlice';
+import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from 'dayjs';
 
 
 
-
+dayjs.extend(relativeTime);
 const tableHeadData = ["","Title", "Date","Delete", "Edit"];
 
 const TodoTable = ({ todos }) => {
@@ -98,7 +100,7 @@ const TodoTable = ({ todos }) => {
               </TableCell>
              
               <TableCell align='center'>
-                {item?.date}
+                {dayjs().to(dayjs(item.date))}
               </TableCell>
 
               <TableCell align="center">

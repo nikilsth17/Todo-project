@@ -19,11 +19,8 @@ const Home = () => {
     },
   });
 
-  
-
-
   return (
-    <Box sx={{ marginTop: '5rem' }}>
+    <>
       <OpenFormDialog />
       <Grid
         container
@@ -36,15 +33,16 @@ const Home = () => {
           minHeight: '60vh',
         }}
       >
-        {isLoading && <Progress/>}
+        {isLoading && <Progress />}
         {isError && <Typography sx={{ color: 'red' }}>{error.message}</Typography>}
         {!isLoading && !isError && (
           <Grid item xs={11.5} md={8}>
+            {/* Additional styles can be added as needed */}
             <TodoTable todos={todos} />
           </Grid>
         )}
       </Grid>
-    </Box>
+    </>
   );
 };
 

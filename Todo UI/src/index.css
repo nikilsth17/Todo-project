@@ -2,9 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-image: url("./utilis/photo.jpg");
-  background-repeat: no-repeat;
 
+}
+
+.backgroundImageContainer {
+  height: fit-content;
+  background-repeat: no-repeat;
+  /* Assuming the photo.jpg is in the public/utilis folder */
+  background-image: url("../src/img/photo.jpg");
+  
 }
 .error-message{
   color: red;
@@ -12,8 +18,8 @@
 }
 
 .footer {
-  /* position: fixed; */
-  /* padding: 2rem; */
+  position:relative;
+  padding: 2rem;
   bottom: 0;
   width: 100%;
   height: 60px; /* Height of the footer */

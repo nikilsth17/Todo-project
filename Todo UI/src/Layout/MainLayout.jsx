@@ -5,10 +5,11 @@ import { Outlet } from 'react-router-dom'
 import Footer from '../component/Footer'
 
 const MainLayout = () => {
-  return (
+const backgroundImage= '/img/photo.jpg';
+return (
 <>
 <Header/>
-    <Box sx={{minHeight:"90vh"}}>
+    <Box className="backgroundImageContainer"   > 
         <Outlet/>
     </Box>
 <Footer/>

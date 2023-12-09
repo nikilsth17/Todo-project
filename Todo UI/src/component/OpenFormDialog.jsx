@@ -10,10 +10,12 @@ import { $axios } from '../lib/axios';
 import Progress from './Progress';
 import * as Yup from 'yup';
 import { HiOutlineViewGridAdd } from "react-icons/hi";
-import { DatePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { useDispatch } from 'react-redux';
 import { openSuccessSnackbar } from '../store/slice/snackbarSlice';
-
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 
 const OpenFormDialog = () => {
@@ -56,7 +58,7 @@ const OpenFormDialog = () => {
       sx={{
         display: 'grid',
         placeItems: 'center',
-       
+        paddingTop:"100px"
       }}
     >
       <React.Fragment>
@@ -106,26 +108,18 @@ const OpenFormDialog = () => {
                   <div style={{ color: 'red' }}>{formik.errors.title}</div>
                 ) : null}
 
-                  <TextField
-                    required
-                    label="date"
-                    style={{width:"100%"}}
-                    {...formik.getFieldProps('date')}
-                    
-                  />
-                     {formik.touched.date && formik.errors.date ? (
-                  <div style={{ color: 'red' }}>{formik.errors.date}</div>
-                ) : null}
-                  
-
-{/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                
+<LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DateTimePicker']}>
-        <DateTimePicker label="Basic date time picker" />
+        <DateTimePicker label="Date" onChange={(event)=>{
+            const todoDate= dayjs(event).toISOString();
+            formik.setFieldValue("date",todoDate);
+        }}/>
       </DemoContainer>
     </LocalizationProvider>   
     {formik.touched.date && formik.errors.date ? (
                   <div style={{ color: 'red' }}>{formik.errors.date}</div>
-                ) : null}                  */}
+                ) : null}                 
                   
 
                 <Button
